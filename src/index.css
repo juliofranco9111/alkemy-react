@@ -1,0 +1,23 @@
+.h100{
+  margin: 0px auto;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered-content{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-cover{
+        width: 80%;
+    height: 100%;
+    object-fit: 'cover';
+    object-position: center;
+}
