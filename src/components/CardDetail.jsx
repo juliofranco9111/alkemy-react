@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardImg, Col, Row } from 'react-bootstrap';
+import { Button, Card, CardImg, Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ import { fetchHeroById } from '../helpers/fetchAuth';
 
 export const CardDetail = () => {
   const { id } = useParams();
+  const  history = useHistory();
+  
   const [hero, setHero] = useState(null);
 
   const heroFetch = fetchHeroById(id);
@@ -128,9 +130,9 @@ export const CardDetail = () => {
 
               <Row>
                 <Col className='text-end'>
-                  <Link className='btn btn-light mt-2' to='/home'>
+                  <Button className='btn btn-light mt-2' onClick={() => history.goBack()}>
                     Back
-                  </Link>
+                  </Button>
                 </Col>
                 <Col>
                   <Card.Link className='btn btn-light mt-2' href='#'>

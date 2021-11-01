@@ -18,10 +18,13 @@ export const authReducer = (state = initialState, action) => {
     case types.authStartLoading:
       return { ...state, checking: true };
     case types.authStopLoading:
-        return { ...state, checking: false };
+      return { ...state, checking: false };
 
     case types.authLogout:
-      return {};
+      return {
+        ...state,
+        userAuth: false,
+      };
 
     default:
       return state;

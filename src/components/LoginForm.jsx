@@ -35,8 +35,6 @@ export const LoginForm = () => {
     event.preventDefault();
     event.stopPropagation();
     validate(values);
-    console.log('holi');
-    console.log(errors);
     if (errors === null) {
       dispatch(startLogin({ email: values.email, password: values.password }));
       dispatch(getRandomTeam());

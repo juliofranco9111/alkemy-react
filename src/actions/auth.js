@@ -56,10 +56,11 @@ export const startChecking = () => {
 
 const stopLoading = () => ({ type: types.authStopLoading });
 
+
 export const startLogout = () => {
   return (dispatch) => {
     localStorage.removeItem('token');
-    localStorage.removeItem('token-init-date');
+    localStorage.removeItem('email');
     dispatch(logout());
   };
 };

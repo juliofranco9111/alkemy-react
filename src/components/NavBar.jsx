@@ -1,32 +1,17 @@
 import React from 'react';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { startLogout } from '../actions/auth';
 
 export const NavBarCustom = () => {
- /*  return (
-    <Navbar bg='light' expand='lg'>
-      <Container>
-        <Navbar.Brand href='#home'>SuperHero</Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-        <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='me-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <Nav.Link href='#link'>Link</Nav.Link>
-            <NavDropdown title='Dropdown' id='basic-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  ); */
+
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    dispatch(startLogout());
+  }
+
   return(
 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
   <Container>
@@ -34,13 +19,13 @@ export const NavBarCustom = () => {
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="me-auto">
-      <Nav.Link href="#features">Home</Nav.Link>
-      <Nav.Link href="#pricing">Search</Nav.Link>
+      <Link className="nav-link" to='/home'>Home</Link>
+      <Link className="nav-link" to='/search'>Search</Link>
       
     </Nav>
     <Nav>
-      <Navbar.Text>
-        Signed in as: challenge@alkemy.org - <a href="#login "> go out</a>
+      <Navbar.Text className="d-flex align-items-center">
+        Signed in as: challenge@alkemy.org  <Button onClick={handleLogOut} className="mx-2"variant="outline-light">Log Out</Button>
       </Navbar.Text>
     </Nav>
   </Navbar.Collapse>

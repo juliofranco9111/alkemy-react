@@ -32,7 +32,7 @@ export const RouterAuth = () => {
         <PrivateRoute
           isLoggedIn={userAuth}
           exact
-          path='/search/:term'
+          path='/search/:term?'
           component={SearchPage}
         />
         <PrivateRoute path='/home' isLoggedIn={userAuth} component={Home} />
