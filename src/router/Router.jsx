@@ -12,6 +12,8 @@ import { PublicRoute } from './PublicRoute';
 export const RouterAuth = () => {
   const { userAuth } = useSelector((state) => state.auth);
 
+  
+
   return (
     <Router>
       <Switch>

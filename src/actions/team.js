@@ -7,29 +7,23 @@ export const getRandomTeam = () => {
     dispatch(startLoading());
     let heroes = await getHeroes();
 
-    const badHeroes = heroes.filter(
-      (hero) => hero.biography.alignment === 'bad'
-    );
-    const goodHeroes = heroes.filter(
-      (hero) => hero.biography.alignment === 'good'
-    );
-
     dispatch({
       type: types.teamSetRandomHeros,
-      payload: { goodHeroes, badHeroes },
+      payload: { heroes },
     });
+    const stats = getSumStats(heroes);
+
+    dispatch(setSumStats(stats));
+    console.log('holi');
+
     dispatch(stopLoading());
   };
 };
 
 const getHeroes = async () => {
   let heroes = [];
-
   while (heroes.length < 6) {
-    console.log(heroes.length);
-    const { data } = await fetchHeroById(heroes.length + 2);
-    console.log(data);
-
+    const { data } = await fetchHeroById(heroes.length + 3);
     const hero = new Hero(data);
     heroes.push(hero);
   }
@@ -37,5 +31,28 @@ const getHeroes = async () => {
   return heroes;
 };
 
+const getSumStats = (array) => {
+  const stats = {
+    intelligence: 0,
+    strength: 0,
+    power: 0,
+    durability: 85,
+    speed: 85,
+    combat: 85,
+  };
+
+  array.forEach(({ powerstats }) => {
+    stats.intelligence += +powerstats.intelligence;
+    stats.strength += +powerstats.strength;
+    stats.power += +powerstats.power;
+    stats.durability += +powerstats.durability;
+    stats.speed += +powerstats.speed;
+    stats.combat += +powerstats.combat;
+  });
+
+  return stats;
+};
+
+const setSumStats = (stats) => ({ type: types.teamSumStats, payload: stats });
 const startLoading = () => ({ type: types.teamStartLoading });
 const stopLoading = () => ({ type: types.teamStopLoading });
