@@ -1,25 +1,32 @@
 import React from 'react';
 import { Col, Container, Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 export const Stats = () => {
-  const statsArr1 = [
-    { stat: 'Intelligence', value: 85 },
-    { stat: 'Strength', value: 85 },
-    { stat: 'Power', value: 85 },
-  ];
-  const statsArr2 = [
-    { stat: 'Durability', value: 85 },
-    { stat: 'Speed', value: 85 },
-    { stat: 'Combat', value: 85 },
-  ];
+  const { sumStats } = useSelector((state) => state.team);
 
-  return (
-    <Container className='mt-2 mx-auto d-flex flex-wrap'>
-      <Col xs={12} md={6}>
-        <Table  size='sm'>
+  if (sumStats) {
+    const statsArr1 = [
+      { stat: 'Intelligence', value: sumStats.intelligence || 0 },
+      { stat: 'Strength', value: sumStats.strength || 0 },
+      { stat: 'Power', value: sumStats.power || 0 },
+      { stat: 'Durability', value: sumStats.durability || 0 },
+      { stat: 'Speed', value: sumStats.speed || 0 },
+      { stat: 'Combat', value: sumStats.combat || 0 },
+    ];
+
+    const sortArray = (arr) =>{
+      return arr.sort((a, b) => {
+        return b.value - a.value;
+      });
+    }
+
+    return (
+      <Container className='mt-2 mx-auto'>
+        <Table size='xs'  responsive="xl">
           <thead>
             <tr>
-              {statsArr1.map((stat) => (
+              {sortArray(statsArr1).map((stat) => (
                 <th scope='col' className='text-center' key={stat.stat}>
                   {stat.stat}
                 </th>
@@ -28,7 +35,7 @@ export const Stats = () => {
           </thead>
           <tbody>
             <tr>
-              {statsArr1.map((stat) => (
+              {sortArray(statsArr1).map((stat) => (
                 <td scope='col' className='text-center' key={stat.stat}>
                   {stat.value}
                 </td>
@@ -36,29 +43,9 @@ export const Stats = () => {
             </tr>
           </tbody>
         </Table>
-      </Col>
-      <Col xs={12} md={6}>
-        <Table  size='sm'>
-          <thead>
-            <tr>
-              {statsArr2.map((stat) => (
-                <th scope='col' className='text-center' key={stat.stat}>
-                  {stat.stat}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {statsArr2.map((stat) => (
-                <td scope='col' className='text-center' key={stat.stat}>
-                  {stat.value}
-                </td>
-              ))}
-            </tr>
-          </tbody>
-        </Table>
-      </Col>
-    </Container>
-  );
+      </Container>
+    );
+  } else {
+    return null;
+  }
 };

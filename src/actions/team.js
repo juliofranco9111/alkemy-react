@@ -14,7 +14,6 @@ export const getRandomTeam = () => {
     const stats = getSumStats(heroes);
 
     dispatch(setSumStats(stats));
-    console.log('holi');
 
     dispatch(stopLoading());
   };
@@ -53,6 +52,6 @@ const getSumStats = (array) => {
   return stats;
 };
 
-const setSumStats = (stats) => ({ type: types.teamSumStats, payload: stats });
+const setSumStats = (stats) => ({ type: types.teamSetSumStats, payload: stats });
 const startLoading = () => ({ type: types.teamStartLoading });
 const stopLoading = () => ({ type: types.teamStopLoading });

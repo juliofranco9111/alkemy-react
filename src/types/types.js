@@ -9,5 +9,5 @@ export const types = {
   teamSetRandomHeros: '[team] Set random heros',
   teamStartLoading: '[team] Start loading',
   teamStopLoading: '[team] Stop loading',
-  teamSumStats: '[team] Sum stats',
+  teamSetSumStats: '[team] Sum stats',
 };
