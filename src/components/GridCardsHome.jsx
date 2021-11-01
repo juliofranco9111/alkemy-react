@@ -5,7 +5,6 @@ import { CardCustom } from './Card';
 
 export const GridCardsHome = () => {
   const { heroes, loading } = useSelector((state) => state.team);
-  console.log(heroes);
   if (loading) {
     return <div className="h100 fs-1">Loading...</div>;
   } else {

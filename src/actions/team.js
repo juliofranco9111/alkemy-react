@@ -22,7 +22,7 @@ export const getRandomTeam = () => {
 const getHeroes = async () => {
   let heroes = [];
   while (heroes.length < 6) {
-    const { data } = await fetchHeroById(heroes.length + 3);
+    const { data } = await fetchHeroById(heroes.length + 1);
     const hero = new Hero(data);
     heroes.push(hero);
   }

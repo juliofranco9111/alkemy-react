@@ -1,68 +1,149 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardImg, Col, Row } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { fetchHeroById } from '../helpers/fetchAuth';
 
 export const CardDetail = () => {
-  const stats = [
-    { stat: 'weight', value: 98 },
-    { stat: 'height', value: 50 },
-    { stat: 'fullName', value: 'El chombo' },
-    { stat: 'aliases', value: 'The darko moon, the light of the sun' },
-    { stat: 'eyeColor', value: 'blue' },
-    { stat: 'hairColor', value: 'brown' },
-    { stat: 'base', value: 'Earth' },
-  ];
+  const { id } = useParams();
+  const [hero, setHero] = useState(null);
 
-  return (
-    <Card
-      className=''
-      style={{
-        maxWidth: '1000px',
-        margin: '30px auto',
-      }}>
-      <Card.Body>
-        <Row>
-          <Col md={6}>
-            <CardImg
-              className='image-cover'
-              variant='top'
-              src='https://www.superherodb.com/pictures2/portraits/10/100/956.jpg'
-              alt='Card image'
-              style={{ maxHeight: '400px', objectFit: 'cover' }}
-            />
-          </Col>
-          <Col className='centered-content p-2'>
-            <Card.Title className='fs-2 fw-bold text-center font-monospace'>
-              El Chombo
-            </Card.Title>
+  const heroFetch = fetchHeroById(id);
 
-            {stats.map((stat) => {
-              return (
-                <Row key={stat.stat}>
-                  <Col>
-                    <Card.Text className='text-end font-monospace'>
-                      {stat.stat}
-                    </Card.Text>
-                  </Col>
-                  <Col>
-                    <Card.Text className='font-monospace'>
-                      {stat.value}
-                    </Card.Text>
-                  </Col>
-                </Row>
-              );
-            })}
+  useEffect(() => {
+    heroFetch.then((res) => {
+      setHero(res.data);
+    });
+  }, []);
 
-            <Row>
-              <Col xs={6} className='text-end'>
-                <Card.Link className='font-monospace'>Card Link</Card.Link>
-              </Col>
-              <Col>
-                <Card.Link href='#'>Another Link</Card.Link>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
-  );
+  if (hero) {
+    const alignment = hero.biography.alignment;
+    const stats = {
+      weight: hero.appearance.weight[1],
+      height: hero.appearance.height[1],
+      eye: hero.appearance['eye-color'],
+      hair: hero.appearance['hair-color'],
+      fullName: hero.name,
+      aliases: hero.biography.aliases,
+      base: hero.biography['place-of-birth'],
+    };
+
+    return (
+      <Card
+        bg={alignment !== 'good' && 'dark'}
+        text={alignment !== 'good' && 'white'}
+        style=
+        {{
+          maxWidth: '1000px',
+          margin: '30px auto',
+        }}
+        >
+        <Card.Body>
+          <Row>
+            <Col md={6}>
+              <CardImg
+                className='image-cover'
+                variant='top'
+                src={hero.image.url}
+                alt='Card image'
+                style={{ objectFit: 'cover' }}
+              />
+            </Col>
+            <Col className='centered-content p-2'>
+              <Card.Title className='fs-2 fw-bold text-center font-monospace'>
+                {hero.name}
+              </Card.Title>
+
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Weight
+                  </Card.Text>
+                </Col>
+                <Col>
+                  <Card.Text className='font-monospace'>
+                    {stats.weight}
+                  </Card.Text>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Height
+                  </Card.Text>
+                </Col>
+                <Col>
+                  <Card.Text className='font-monospace'>
+                    {stats.height}
+                  </Card.Text>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Eye Color
+                  </Card.Text>
+                </Col>
+                <Col>
+                  <Card.Text className='font-monospace'>{stats.eye}</Card.Text>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Hair Color
+                  </Card.Text>
+                </Col>
+                <Col>
+                  <Card.Text className='font-monospace'>{stats.hair}</Card.Text>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Aliases
+                  </Card.Text>
+                </Col>
+                <Col>
+                  {stats.aliases.map((alias) => {
+                    return (
+                      <Card.Text key={alias} className='font-monospace'>
+                        {alias}
+                      </Card.Text>
+                    );
+                  })}
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card.Text className='text-end font-monospace'>
+                    Place of Birth
+                  </Card.Text>
+                </Col>
+                <Col>
+                  <Card.Text className='font-monospace'>{stats.base}</Card.Text>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-end'>
+                  <Link className='btn btn-light mt-2' to='/home'>
+                    Back
+                  </Link>
+                </Col>
+                <Col>
+                  <Card.Link className='btn btn-light mt-2' href='#'>
+                    Add +
+                  </Card.Link>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+    );
+  } else {
+    return <div className='h100 fs-1'>Loading...</div>;
+  }
 };

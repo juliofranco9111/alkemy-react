@@ -14,9 +14,8 @@ export const fetchAuth = (user) => {
 };
 
 export const fetchHeroById = (id) => {
-  return axios
-    .get(URLApi
- + id)
+  return  axios
+    .get(URLApi + id)
     .then((r) => r)
     .catch((err) => err);
 }
