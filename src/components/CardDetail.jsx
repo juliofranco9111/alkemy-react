@@ -110,9 +110,9 @@ export const CardDetail = () => {
                 <Col>
                   {stats.aliases.map((alias) => {
                     return (
-                      <Card.Text key={alias} className='font-monospace'>
+                      <div key={alias} className='font-monospace'>
                         {alias}
-                      </Card.Text>
+                      </div>
                     );
                   })}
                 </Col>

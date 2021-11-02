@@ -19,3 +19,10 @@ export const fetchHeroById = (id) => {
     .then((r) => r)
     .catch((err) => err);
 }
+
+export const fetchHeroesByName = (name) => {
+  return axios
+    .get(URLApi + 'search/' + name)
+    .then((r) => r)
+    .catch((err) => err);
+}

@@ -10,14 +10,14 @@ import { PrivateRoute } from './PrivateRoutes';
 import { PublicRoute } from './PublicRoute';
 
 export const RouterAuth = () => {
-  const { userAuth } = useSelector((state) => state.auth);
+  let { userAuth } = useSelector((state) => state.auth);
 
-  
+  userAuth = true;
 
   return (
     <Router>
       <Switch>
-        <PublicRoute
+        <PrivateRoute
           exact
           path='/login'
           component={Login}
@@ -32,7 +32,13 @@ export const RouterAuth = () => {
         <PrivateRoute
           isLoggedIn={userAuth}
           exact
-          path='/search/:term?'
+          path='/search'
+          component={SearchPage}
+        />
+        <PrivateRoute
+          isLoggedIn={userAuth}
+          exact
+          path='/search/:term'
           component={SearchPage}
         />
         <PrivateRoute path='/home' isLoggedIn={userAuth} component={Home} />

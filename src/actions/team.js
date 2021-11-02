@@ -5,17 +5,30 @@ import { types } from '../types/types';
 export const getRandomTeam = () => {
   return async (dispatch) => {
     dispatch(startLoading());
-    let heroes = await getHeroes();
 
-    dispatch({
-      type: types.teamSetRandomHeros,
-      payload: { heroes },
-    });
-    const stats = getSumStats(heroes);
+    const team = localStorage.getItem('team');
+    if (team) {
+      const teamStored = JSON.parse(team);
+      const stats = getSumStats(teamStored);
 
-    dispatch(setSumStats(stats));
+      dispatch(setSumStats(stats));
+      dispatch({
+        type: types.teamSetRandomHeros,
+        payload: teamStored,
+      });
+      dispatch(stopLoading());
+    }else{
+      const heroes = await getHeroes();
+      localStorage.setItem('team', JSON.stringify(heroes));
+      const stats = getSumStats(heroes);
 
-    dispatch(stopLoading());
+      dispatch({
+        type: types.teamSetRandomHeros,
+        payload: { heroes },
+      });      
+      dispatch(setSumStats(stats));
+      dispatch(stopLoading());
+    }
   };
 };
 
