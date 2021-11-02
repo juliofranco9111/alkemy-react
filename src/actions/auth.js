@@ -24,18 +24,11 @@ export const startLogin = (user) => {
   };
 };
 
-const login = (token) => ({
-  type: types.authLogin,
-  payload: token,
-});
-
-const startLoading = () => ({
-  type: types.authStartLoading,
-});
-
 export const startChecking = () => {
   const token = localStorage.getItem('token') || null;
   const email = localStorage.getItem('email') || null;
+
+  
 
   if (token && email) {
     return (dispatch) => {
@@ -54,9 +47,6 @@ export const startChecking = () => {
   }
 };
 
-const stopLoading = () => ({ type: types.authStopLoading });
-
-
 export const startLogout = () => {
   return (dispatch) => {
     localStorage.removeItem('token');
@@ -64,5 +54,16 @@ export const startLogout = () => {
     dispatch(logout());
   };
 };
+
+const login = (token) => ({
+  type: types.authLogin,
+  payload: token,
+});
+
+const startLoading = () => ({
+  type: types.authStartLoading,
+});
+
+const stopLoading = () => ({ type: types.authStopLoading });
 
 const logout = () => ({ type: types.authLogout });

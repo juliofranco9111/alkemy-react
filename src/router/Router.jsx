@@ -1,7 +1,8 @@
 // router
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
+import { startChecking } from '../actions/auth';
 import { DetailPage } from '../pages/DetailPage';
 import { Home } from '../pages/Home';
 import { Login } from '../pages/Login';
@@ -10,18 +11,18 @@ import { PrivateRoute } from './PrivateRoutes';
 import { PublicRoute } from './PublicRoute';
 
 export const RouterAuth = () => {
+  const dispatch = useDispatch();
+  dispatch(startChecking);
   let { userAuth } = useSelector((state) => state.auth);
-
-  userAuth = true;
 
   return (
     <Router>
       <Switch>
-        <PrivateRoute
+        <PublicRoute
           exact
           path='/login'
-          component={Login}
           isLoggedIn={userAuth}
+          component={Login}
         />
         <PrivateRoute
           isLoggedIn={userAuth}
@@ -29,16 +30,11 @@ export const RouterAuth = () => {
           path='/details/:id'
           component={DetailPage}
         />
+
         <PrivateRoute
           isLoggedIn={userAuth}
           exact
-          path='/search'
-          component={SearchPage}
-        />
-        <PrivateRoute
-          isLoggedIn={userAuth}
-          exact
-          path='/search/:term'
+          path='/search/:term?'
           component={SearchPage}
         />
         <PrivateRoute path='/home' isLoggedIn={userAuth} component={Home} />
